@@ -59,6 +59,7 @@ elseif ($connect->query($sql)->num_rows > 0) {
                 
             <FORM METHOD="POST" onclick = "return confirm('Are you sure to delete <?php echo $row["Name"]?>?');">
                 <input TYPE = "hidden" name = "DeleteSQL" value = "DELETE FROM schema.contacts WHERE ID = <?php echo $row["ID"]?>">
+                <input TYPE = "hidden" name = "DeletedName" value = "<?php echo $row["Name"]?>">
                 <INPUT TYPE = "submit" VALUE = "Delete">
 
             </FORM>
@@ -79,11 +80,11 @@ else {
 }
 
 //Deleting data
-if (empty($_POST["DeleteSQL"])){
+if (empty($_POST["DeleteSQL"]) && empty($_POST["DeletedName"])){
     echo "  ";
 }
 elseif ($connect->query($_POST["DeleteSQL"]) === TRUE) {
-    echo "Record deleted successfully";
+    echo "<br>" . $_POST["DeletedName"] . " is deleted successfully";
 } else {
     echo $_POST["DeleteSQL"];   
     echo "Error deleting record: " . $connect->error;
