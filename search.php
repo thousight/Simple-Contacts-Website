@@ -9,8 +9,9 @@ Phone Number: <input type="text" name="Number"><br>
     
 <?php 
     session_start();
-    $connect = new mysqli("localhost", $_SESSION["username"],           $_SESSION["password"], "schema"); // Using session to create a new connection
+    $connect = new mysqli("localhost", $_SESSION["username"], $_SESSION["password"], "schema"); // Using session to create a new connection
     $sql = '';
+
 // Handling when the form isn't filled
 if (empty($_POST["Name"]) && empty($_POST["Number"])){
     echo "Please enter name or phone number";
@@ -56,9 +57,11 @@ elseif ($connect->query($sql)->num_rows > 0) {
             <td><?php echo $row["Numbers"] ?></td>
             <td>
                 
-            <form METHOD="LINK" ACTION="add.php" TARGET = "_blank">
-                <INPUT TYPE="submit" VALUE="Delete">
-            </form>
+            <FORM METHOD="POST" onclick = "return confirm('Are you sure to delete <?php echo $row["Name"]?>?');">
+                <input TYPE = "hidden" name = "DeleteSQL" value = "DELETE FROM schema.contacts WHERE ID = <?php echo $row["ID"]?>">
+                <INPUT TYPE = "submit" VALUE = "Delete">
+
+            </FORM>
                 
             </td>
         </tr>
@@ -73,6 +76,17 @@ elseif ($connect->query($sql)->num_rows > 0) {
 }
 else {
     echo "0 results";
+}
+
+//Deleting data
+if (empty($_POST["DeleteSQL"])){
+    echo "  ";
+}
+elseif ($connect->query($_POST["DeleteSQL"]) === TRUE) {
+    echo "Record deleted successfully";
+} else {
+    echo $_POST["DeleteSQL"];   
+    echo "Error deleting record: " . $connect->error;
 }
 ?>
 
