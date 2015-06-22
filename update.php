@@ -21,7 +21,7 @@ else {
     $sql = "UPDATE contacts SET Numbers='" . $number . "' WHERE Name='" . $name . "'";// Creating SQL add statement
     $connect = new mysqli("localhost", $_SESSION["username"],         $_SESSION["password"], "schema"); // Using session to create a new connection
     
-// Add data to mysql in the if statement and show results
+// Update data to mysql in the if statement and show results
 if ($connect->query($sql) === true) {
     echo "Success";
 }
