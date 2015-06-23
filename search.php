@@ -52,18 +52,23 @@ elseif ($connect->query($sql)->num_rows > 0) {
 ?>
     
         <tr>
-            <td><?php echo $row["ID"] ?></td>
+            <td>  
+            <!-- Creating a button that redirects users to update.php with the selected item -->    
+            <FORM METHOD="POST" action = "update.php"> 
+                <input TYPE = "hidden" name = "NameFromSearch" value = "<?php echo $row["Name"]?>">
+                <input TYPE = "hidden" name = "NumberFromSearch" value = "<?php echo $row["Numbers"]?>">
+                <INPUT TYPE = "submit" VALUE = "<?php echo $row["ID"]; ?>">
+            </FORM> 
+            </td>
             <td><?php echo $row["Name"] ?></td>
             <td><?php echo $row["Numbers"] ?></td>
             <td>
-                
+            <!-- Creating a Delete button -->
             <FORM METHOD="POST" onclick = "return confirm('Are you sure to delete <?php echo $row["Name"]?>?');">
-                <input TYPE = "hidden" name = "DeleteSQL" value = "DELETE FROM schema.contacts WHERE ID = <?php echo $row["ID"]?>">
+                <input TYPE = "hidden" name = "DeleteSQL" value = "DELETE FROM schema.contacts WHERE ID = <?php echo $row["ID"];?>">
                 <input TYPE = "hidden" name = "DeletedName" value = "<?php echo $row["Name"]?>">
                 <INPUT TYPE = "submit" VALUE = "Delete">
-
-            </FORM>
-                
+            </FORM>               
             </td>
         </tr>
     
